@@ -13,7 +13,6 @@
   - Conteo de documentos con la función countDocuments(query, options).
 - **Código:**
   ```javascript
-  // Return data on all music companies, sorted alphabetically from A to Z. Ensure consistent sort order
   db.companies.find({ category_code: "music" }).sort({ name: 1,_id: 1 });
   db.companies.find({ category_code: "music" })
     .sort({ number_of_employees: -1, _id: 1 })
