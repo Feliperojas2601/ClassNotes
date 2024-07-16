@@ -15,6 +15,8 @@
   - MongoDB Shell es un entorno REPL de NodeJs (Read-Evaluate-Print-Loop), como un entorno pequeño para operar con la base de datos conectada, tenemos variables, funciones, etc de Js. Nos conectamos con el string de conexión que nos da Atlas y el password de Admin.
   - Errores de conexión y credenciales son los más comúnes, generalmente por la IP no agregada en Atlas o contraseña.
   - mongodb+srv://myDatabaseUser:D1fficultP%40ssw0rd@cluster0.example.mongodb.net/?retryWrites=true&w=majority
+  - Driver, elemento entre la aplicación y la base de datos. El driver de node trabaja con el paquete built-in de BSON de Node para intercatuar con el servidor de Mongo. Simplifican conexión e interacción, es async y el oficial es controlado/versionado por MongoDB como tal. 
+  - Para node se usa NPM, npm i mongodb. Debemos reutilizar el cliente por aplicación.
 
 ## Recursos Adicionales
 - [MongoDB Node Developer Path](https://learn.mongodb.com/learn/learning-path/mongodb-nodejs-developer-path)
