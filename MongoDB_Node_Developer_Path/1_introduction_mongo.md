@@ -12,6 +12,7 @@
   - Hay drivers para todos los lenguajes.
   - Escalabale, resiliente, veloz, segura.
   - MongoDB es el core de Atlas. Mongo en cloud con características construidas sobre esto.
+  - El tipo de datA númerico válido es 32-bit integer, 64-BIT-INT, double en BSON.
 
 ## Recursos Adicionales
 - [MongoDB Node Developer Path](https://learn.mongodb.com/learn/learning-path/mongodb-nodejs-developer-path)

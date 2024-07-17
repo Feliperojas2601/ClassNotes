@@ -5,13 +5,13 @@
 <img src="images/mongo.png" alt="Gráfico de Introducción" width="300">
 
 - **Notas:**
-  - Reemplaza documentos, usamos replaceOne(filter, replacement, options), replacement es un documento.
+  - Reemplaza documentos, usamos replaceOne(filter, replacement, options), replacement es un documento. Si se manda en el filtro {} entonces encuentra el primer elemento cualquiera y lo reemplaza.
   - Actualizar un documento con updateOne(filter, update, create) update es una query de actualización a realizar. 
   - Los operadores $set y $push, set añade fields o reemplaza con un valor mientras que push appends el valor a un array o añade un field array con el valor como elemento. 
   - La opción upsert crea un documento si el filter no hizo match.
   - findAndModify({query: {}, update: {}, new:false/true}) se usa para actualizar y entregar el documento actualizado updateOne + findOne. Con el new true se devuelve el documento con las modificaciones.
-  - updateMany(filter, update, options) para actualizar varios. No es átomico, si falla ya tendremos algunos actualizados.
-  - deleteOne(filter, options) y deleteMany(filter, options) para eliminar documentos, entregan un deletedCount y un ack.
+  - updateMany(filter, update, options) para actualizar varios. No es átomico, si falla ya tendremos algunos actualizados. Si se manda en el filtro {}, se actualizan todos.
+  - deleteOne(filter, options) y deleteMany(filter, options) para eliminar documentos, entregan un deletedCount y un ack. findOneAndDelete para devolver el elemento eliminado.
 - **Código:**
   ```javascript
   db.books.replaceOne(
@@ -45,7 +45,7 @@
   db.podcasts.updateOne(
     { title: "The Developer Hub" },
     { $set: { topics: ["databases", "MongoDB"] } },
-    { upsert: true }
+    { $upsert: true }
   )
   db.podcasts.findAndModify({
     query: { _id: ObjectId("6261a92dfee1ff300dc80bf1") },
