@@ -11,7 +11,9 @@
   - getSiblingDb(name) es un método que puede ser llamado desde X db. y ejecutar cosas sobre la otra db name. 
   - Al crear un indice multikey sobre un arreglo con documentos, si la query se hace sobre documents.field el indice que cubre mejor es por tanto documents.field, no sobre todo documents y no redudante documents: 1 y documents.field: 1
   - Mongo client tiene métodos db(), close(), no tiene métodos open() ni destroy()
-  - Usar connection pooling en el driver reduce latencia y limita el número de conexiones, no remueve auth y remueve la necesidad de abrir o cerrar conexiones
+  - Usar connection pooling en el driver reduce latencia y limita el número de conexiones, no remueve auth y remueve la necesidad de abrir o cerrar conexiones.
+  - Si tengo una query de ordenación, los indices que me cubren completo el rendimiento son field: 1 y field: -1 con compuestos claro está.
+  - En un ecommerce, guarde el inventario embeed en los productos, las reviews ni las ordenes no, no se accede junto.
 - **Código:**
   ```javascript
   {
