@@ -45,7 +45,7 @@
   db.podcasts.updateOne(
     { title: "The Developer Hub" },
     { $set: { topics: ["databases", "MongoDB"] } },
-    { $upsert: true }
+    { upsert: true }
   )
   db.podcasts.findAndModify({
     query: { _id: ObjectId("6261a92dfee1ff300dc80bf1") },
