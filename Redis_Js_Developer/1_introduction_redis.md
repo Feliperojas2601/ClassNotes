@@ -1,6 +1,6 @@
 ## Introducción - Redis
 
-### Fecha: 16/07/2024
+### Fecha: 18/07/2024
 
 <img src="images/redis.png" alt="Gráfico de Introducción" width="300">
 
