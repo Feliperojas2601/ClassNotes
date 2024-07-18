@@ -11,4 +11,4 @@
   - El conexión pooling es manetener una cantidad de conexiones disponibles para evitar el costo grande de iniciar una nueva conexión, está pensado para aplicaciones multi hilo y múltiples llamados concurrentes. Para NodeJs y Redis no tenemos esta necesidad porque ambos son single thread.
 
 ## Recursos Adicionales
-- [MongoDB Node Developer Path](https://learn.mongodb.com/learn/learning-path/mongodb-nodejs-developer-path)
+- [Redis Js Developers course](https://university.redis.com/courses/ru102js/)

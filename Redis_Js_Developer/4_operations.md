@@ -119,4 +119,4 @@
   ```
 
 ## Recursos Adicionales
-- [MongoDB Node Developer Path](https://learn.mongodb.com/learn/learning-path/mongodb-nodejs-developer-path)
+- [Redis Js Developers course](https://university.redis.com/courses/ru102js/)
