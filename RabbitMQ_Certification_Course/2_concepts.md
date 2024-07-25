@@ -1,6 +1,6 @@
 ## RabbitMQ Concepts
 
-### Fecha: 23/07/2024
+### Fecha: 24/07/2024
 
 <img src="images/rabbit.png" alt="Gráfico de Introducción" width="150">
 
