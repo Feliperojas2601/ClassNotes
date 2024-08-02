@@ -23,6 +23,9 @@
   - Un binding es una asociación entre cola y exchange. Usan la routing_key.
   - Los acknowledgments permiten la retransmisión de msgs al no ser transmitidos, el cliente decide cuando mandar el ack. Podemos considerar algo enviado desde que sale (publisher confirm) o desde que es escrito o desde que explicitamente se recibe el ack. El msg se decarta de la cola, el field de requeue permite reenviar a la misma posición el msg, ojo con los bucles.
   - Los Vhosts segregan aplicaciones dentro de la misma instancia de RabbitMQ. Los recursos anteriores todos están sobre un vhost. Los usuarios son asignables con permisos a los vhost. Entre vhosts no se comparten cosas excepto recurso físico y por tanto pueden afectarse el rendimiento.
+  - Una quorum queue es una cola que se asegura que el clúster y sus nodos estén todos de acuerdo en el contenido de la cola. Se usan con durable y el header {“x-queue-type”:“quorum”}. Una lazy queue se usa por si el nivel de mensajes es mucho y no se desea saturar la ram, se configura en la declaración y permite pasar al alamcenamiento en disco de manera auto.
+  - Para entrega de msg a múltiples consumers, relectura y grandes vols se recomiendan usar streams. Cambia la manera de publicar y consumir msgs, es solo un append-only por tanto no se elimina solo se lee. Siempre persistente y replicado. arguments={"x-queue-type": "stream"}. Se puede usar sobre amqp o sobre el protocolo binario de stream que trae mejoras y se instala como un plugin. Los mensajes se decartan usando una politica de retención, sea size o time based x-stream-max-segment-size-bytes, x-stream-max-segment-size-bytes.
+  - El consumidor puede hacer un ack negativo para indicar al broker que debe reenviar pues no pudo procesar (nack).
 - **Código:**
   ```javascript
   ```
