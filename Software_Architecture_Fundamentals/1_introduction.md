@@ -1,21 +1,27 @@
 ## Introducción
 
-### Fecha: 02/08/2024
+### Fecha: 20/08/2024
 
-<img src="images/sa.jpg" alt="Gráfico de Introducción" width="150">
+<img src="images/sa.jpg" width="150">
 
 - **Notas:**
   - La industria no tiene una buena definición de arquitectura de software. 
   - El alcance de esto es muy grande, se ha expandido de estilos, metricas, soft skills, devops, entre otros. 
+  <img src="images/1.png" width="1050">
   - Cualquier definición va a ser obsoleta en unos años, se mueve rápido como el sector. 
   - Todas las arquitecturas son producto del contexto, no se puede imaginar microservicios hace 20 años. 
   - Podemos describir la arquitectura de software como la estructura + caracteristicas + decisiones + principios de diseño. La estructura refiere al estilo arquitectonico (micros, layer, etc). Las caracteristicas o las -ilities son aquellas que definen el éxito del sistema y sus funcionalidades (Disponibilidad, seguridad, etc). Las decisiones son reglas de cómo se debe construir el sistema (Conexiones a bases de datos desde el back) y por último, el principio de diseño es una guía más que una regla de como debe construirse el sistema. 
+  <img src="images/2.png" width="1050">
+  <img src="images/3.png" width="1050">
+  <img src="images/4.png" width="1050">
+  <img src="images/5.png" width="1050">
+  <img src="images/6.png" width="1050">
   - Las expectativas de un arquitecto son estas 8 cosas: 
     - Tomar decisiones de arquitectura. 
     - Analizar continuamente la arquitectura. 
     - Mantenerse al día con las tendencias. 
     - Asegurar conformidad con las decisiones tomadas. 
-    - Diversificar la exposición y experiencia. 
+    - Diversificar la exposición y experiencia en tech. 
     - Tener conocimientos del negocio.
     - Tener skills interpersonales. 
     - Entender y manejar politicas. 
@@ -31,7 +37,38 @@
     - Todo en arquitectura de software es un trade-off (pros/cons). 
     - Si el arquitecto encuentra algo que no es un trade-off, no lo ha identificado entonces. 
     - Por qué es más importante que cómo. 
-    
+
+- **Preguntas:**
+  - **1. What are the four dimensions that define software architecture?**  
+  <details>
+    <summary>Ver respuesta</summary>
+    Estructura, características, decisiones y principios de diseño.
+  </details>
+
+  - **2. What is the difference between an architecture decision and a design principle?**  
+  <details>
+    <summary>Ver respuesta</summary>
+    La decisión es una ley concreta y aplicada de inmediato sobre la arquitectura, solo analizada en trade off y casos muy especiales, mientras que el principio de diseño funciona como una guía más general.
+  </details>
+
+  - **3. List the eight core expectations of a software architect.**  
+  <details>
+    <summary>Ver respuesta</summary>
+    - Tomar decisiones de arquitectura.  
+    - Analizar continuamente la arquitectura.  
+    - Mantenerse al día con las tendencias.  
+    - Asegurar conformidad con las decisiones tomadas.  
+    - Diversificar la exposición y experiencia en tech.  
+    - Tener conocimientos del negocio.  
+    - Tener habilidades interpersonales.  
+    - Entender y manejar políticas.
+  </details>
+
+  - **4. What is the First Law of Software Architecture?**  
+  <details>
+    <summary>Ver respuesta</summary>
+    Todo es un trade/off en arquitectura de software.
+  </details>
 
 ## Recursos Adicionales
 - [Course](https://fundamentalsofsoftwarearchitecture.com/)
