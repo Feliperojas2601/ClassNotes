@@ -1,6 +1,6 @@
 ## Architectural Thinking
 
-### Fecha: 02/08/2024
+### Fecha: 20/08/2024
 
 <img src="images/sa.jpg" alt="Gráfico de Introducción" width="150">
 
