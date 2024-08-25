@@ -27,40 +27,52 @@
   Modularidad y extensibilidad también resaltan porque el estilo permite agregar, remover y separar muy bien responsabilidades. <br>
   Performance normal porque suelen ser aplicaciones pequeñas que no crecen mucho como la mayoría de layereds. Además no sufren tanto de sinkhole porque se puede desconectar funcionalidad de manera sencilla.<br>
 - **Preguntas:**
-  - **1. Can pipes be bidirectional in a pipeline architecture?**  
+  - **1. What is another name for the microkernel architecture style?**  
   <details>
     <summary>Ver respuesta</summary>
-    No, son unidireccionales por la naturaleza secuancial del procesamiento.
+    Plugin arch.
   </details>
 
-  - **2. Name the four types of filters and their purpose.**  
+  - **2. Under what situations is it OK for plug-in components to be dependent on other plug-in components**  
   <details>
     <summary>Ver respuesta</summary>
-    Ver arriba el detalle.
+    Yo pienso que en ninguna. La gracia de un plugin es su comportamiento isolated.
   </details>
 
-  - **3. Can a filter send data out through multiple pipes?**  
+  - **3. What are some of the tools and frameworks that can be used to manage plug-ins?**  
   <details>
     <summary>Ver respuesta</summary>
-    Puede darse broadcast pero no se recomienda, point-to-point da performance.
+    OSGi es un framework para el manejo de plugins.
   </details>
 
-  - **4. Is the pipeline architecture style technically partitioned or domain partitioned?**  
+  - **4. What would you do if you had a third-party plug-in that didn’t conform to the standard plug-in contract in the core system?**  
   <details>
     <summary>Ver respuesta</summary>
-    Técnica, se divide la lógica en tipos de filtros, un artefacto técnico de la arquitectura.
+    Realizar un adapter entre mi contrato estandar y este contrato de tercero para que el core no tenga código especializado. 
   </details>
 
-  - **5. In what way does the pipeline architecture support modularity?**  
+  - **5. Provide two examples of the microkernel architecture style.**  
   <details>
     <summary>Ver respuesta</summary>
-    En la separación de responsabilidades que se da con el uso de varios tipos  filtros para repartir la lógica.
+    Un IDE como VsCode y el ejemplo de la aplicación que recicla electronic devices y cada device es un plug-in.
   </details>
 
-  - **6. Provide two examples of the pipeline architecture style.**  
+  - **6. Is the microkernel architecture style technically partitioned or domain partitioned?**  
   <details>
     <summary>Ver respuesta</summary>
-    Herramientas de ETLs, herramientas de .ext to .ext2.
+    Es muy especial porque el core puede ser partido de manera ténica como layers o por dominios.
+  </details>
+
+  - **7. Why is the microkernel architecture always a single architecture quantum?**  
+  <details>
+    <summary>Ver respuesta</summary>
+    Por el core, toda petición entra al core si o si así luego se diriga a un plugin por tanto un plugin por si solo no es quanta, todo es un single quanta.
+  </details>
+
+  - **8. What is domain/architecture isomorphism**  
+  <details>
+    <summary>Ver respuesta</summary>
+    El concepto de isomorfismo entre dominio y arquitectura se refiere a la correspondencia directa entre la estructura de un dominio y la estructura de la arquitectura del software. Es decir, las entidades de negocio (del dominio) se reflejan directamente en la arquitectura técnica del sistema. Podrías explicar que esto facilita la comprensión y el mantenimiento del sistema porque la estructura de la aplicación refleja de manera clara la lógica de negocio.
   </details>
 
 ## Recursos Adicionales
