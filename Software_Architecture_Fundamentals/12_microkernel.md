@@ -5,7 +5,7 @@
 <img src="images/sa.jpg" alt="Gráfico de Introducción" width="150">
 
 - **Notas:**
-  - La arquitetcura de microkernel o plug-in es muy usada a día de hoy. Hace match con las aplicaciones de software basadas en productos, empacada y disponible para descragar e instalar como un single monolito deployment instalado en el sitio del producto.
+  - La arquitectura de microkernel o plug-in es muy usada a día de hoy. Hace match con las aplicaciones de software basadas en productos, empacada y disponible para descragar e instalar como un single monolito deployment instalado en el sitio del producto.
   - Dos componentes principales, el core system y los plug-ins. La lógica se reparte en estos componentes dando mucha extensibilidad, adaptabilidad e isolation de features.
   - El core es la mínima cantidad de features para correr el sistema. Los IDE's son un buen ejemplo, core es abrir archivos, modificar texto y guardar. También se puede entender el core como el happy path del proceso general de la aplicación. Remover la cyclomatic complexity del core hacia los plugins incrementa la mantenibilidad y testeabilidad del código. Una aplicación de device recycling no va a poner todos los dispositivos en el core sino cada uno de ellos como un plug-in y en el core tendremos la localización e invocación del plug-in que corresponda. 
   - Dependiendo del tamaño y complejidad se puede implementar el core como un layered (técnico) o modular (funcionalidades) monolith, en algunos casos puede separarse también en varios deploy unit services con plugins especificos para cada uno. Es común que compartan una sola DB.  
