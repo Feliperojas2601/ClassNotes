@@ -51,7 +51,7 @@
   - **3. Under what circumstances might you want to break apart a database?**  
   <details>
     <summary>Ver respuesta</summary>
-    Ayuda...
+    Podrías considerar descomponer una base de datos si necesitas aislar dominios de datos para mejorar la escalabilidad, facilitar el mantenimiento, o si ciertos servicios requieren una alta disponibilidad independiente de otros servicios.
   </details>
 
   - **4. What technique can you use to manage database changes within a service-based architecture?**  
