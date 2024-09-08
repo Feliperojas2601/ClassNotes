@@ -21,65 +21,106 @@
   <img src="images/42.png" width="1050">
   - Hay algunos aspectos negativos como el no control sobre el flujo asociado al evento de inicio, nadie en el sistema sabe cuando la trx está completa. El manejo de errores es otro problema complicado, un fallo y nadie está pendiente de el, se puede trabar hasta un arreglo automatico o manual. La recuperabilidad es compleja porque otros processors han actuado y no podemos reiniciar desde un inicio una trx.  
   <img src="images/43.png" width="1050">
+  - Mediator, aquí existe un componente central que es el event mediator, que maneja y controla el flujo para eventos iniciales que requieren la coordinación de múltiples procesadores de eventos. Los componentes son eventos iniciales, cola de eventos, event mediator, event channels (topics) y procesadores de eventos.
+  - El evento inicial inicia el flujo, se envía a una cola de eventos inicial que es aceptada o consumida por el mediator, este solo conoce los pasos en el proceso del evento y por tanto genera los eventos dirigidos a canales de eventos especializados (usualmente colas) de manera 1-1. Los procesadores escuchan esos canales dedicados procesan y responden nuevamente al mediator (no al resto del sistema).
+  <img src="images/44.png" width="1050">
+  - En la mayoría de implementaciones de esta topología se cuenta con distintos mediatos asociados a un dominio o grupo de eventos. Esto reduce el single point of failure y aumenta el performance y thoughput. 
+  - El mediator se puede implementar de muchas formas, para eventos simples Apache Camel, Mule ESB que por dentro tienen código escrito en lenguajes de proposito general para el manejo del flujo. Si se necesita un montón de complejidad entonces Apache ODE, Oracle BEPL que usan el BPEL un lenguaje XML-like poderoso pero complejo. Para aquellos flujos que necesitan intervención humana entonces jBPM. Es importante conocer el tipo de eventos para tomar una decisión correcta, como es raro tener eventos todos de una misma complejidad puede generarse un mediator simple antes de todos que según la complejidad del evento evento lo lleve al mediator adecuado. Este mediator simple puede ser responsable de conocer el estado de todos los eventos o delegar eso a cada mediator.
+  <img src="images/45.png" width="1050">
+  - En un ejemplo de evento tenemos los pasos que conoce el mediator y dentro de esos pasos eventos que ocurren de manera simultanéa, sin embargo, para pasar al siguiente paso el mediator espera el ack de cada uno de esos eventos.
+  <img src="images/46.png" width="1050">
+  <img src="images/47.png" width="1050">
+  - El mediator tiene conocimiento y control del flujo por tanto mantiene el estado de los eventos, puede manejar errores, recuperarlos y reiniciarlos. Difiere del broker en esto y en que los eventos eran cosas que ocurren en el sistema aquí son más bien comandos, cosas que deben hacerse y no pueden ser ignoradas.
+  - Es dificil modelar declarativamente procesamientos dinamicos que ocurren en flujos de eventos complejos por tanto muchas veces hay un hibrido entre mediator para procesamiento general y broker para naturaleza dinamica compleja de eventos. 
+  - El mediator también escala pero es más propenso a cuellos de botella y también implica que no hay tanto desacoplamiento y performance como en el broker. Escoja entre control y manejo de errores contra performance y escalabilidad (a mayor nivel).
+  <img src="images/48.png" width="1050">
+  - En general, esta arch ofrece una capacidad única y es que toda la comunicación se sostiene en async, tanto para no response required como para request/reply process. Esto es muy poderoso para manejar la responsividad del sistema. En el ejemplo se ve como de 3100ms de respuesta podemos pasar a 25ms claro con la perspectiva de que ya se hizo cuando se está procesando por debajo. Por qué hacer al usuario esperar si no necesita la respuesta?. La diferencia de responsiveness y performance es que el performance se mejora tomando todo el proceso end-to-end en cambio la respuesta puede mejorarse solo acelerando la notificación de aceptado. 
+  <img src="images/49.png" width="1050">
+  - Para el manejo de errores, se puede seguir el patron workflow event pattern of reactive arch, en donde logramos tanto responsividad como resiliencia. Aquí delgeamos a un workflow processor delegate, el producer de events pasa data async a un canal al consumer, si el consumer tiene un error mientras procesa la data entonces de manera inmediata delega al worflow processor y continua consumiendo nuevos msgs. El procesador de workflow recibe y mira cual es el error en el msg, de manera programada (sin intervención humana) el processor cambia el msg y lo manda de nuevo a la cola de origen. Cuando no puede determinar el error entonces lo manda a otra cola que es consumida por un "dashboard" en donde un humano revisa y lo arregla para volverlo a mandar a la cola origen.
+  <img src="images/50.png" width="1050">
+  - Para prevenir la pérdida de datos (msgs borrados o nunca llegando a su destino) identificamos las 3 áreas de perdida y la solución de cada una. 
+    - De processor A a la cola. Solución: Persisten messahge queues y sync send a la cola. 
+    - De la cola a processor B. Solución: Ack mode de los msgs.
+    - De processor B a la DB. Solución: ACID trx y LPS, eliminando el msg de la cola persistente luego de haberlo persistido en la BD con trxs.
+  <img src="images/51.png" width="1050">
+  - Las capacidades broadcast para transmitir a varios sin saber quienes son es única en esta arch. Es el mayor nivel de desacoplamiento y es un patrón de consistencia eventual y de procesamiento de eventos complejos. 
+  - Si se necesita confirmación de respuesta sync (request/reply process), cada canal constará de una cola de request y otra de reply en donde el producer hace un bloqueo de espera hasta obtener la respuesta, existen dos maneras principales de lograrlo: 
+    - Correlation ID en el header del msg en donde se coloca el ID inicial del request. 
+    - Cola temporal dedicada a la request especifica que vive mientras dure el request/reply.
+  Se recomienda más el ID ya que mucho procesamiento de msgs incurre en más recursos en el broker creando y eliminando colas.
+  <img src="images/52.png" width="1050">
+  <img src="images/53.png" width="1050">
+  - Es importante entender cuando escoger request based y event based, el request para bien estructuradas, data-driven requests que necesitan certeza y control mientras que event para flexibles, action-based eventos que requieren altos niveles de responsividad y escalamiento con procesamiento complejo y dinamico. Esta arch ayuda a remover cuellos de botella, da un back pressure point (acumulación de eventos) y da una responsividad única.
+  <img src="images/54.png" width="1050">
   - Ratings: 
-  <img src="images/39.png" width="1050">
-  Es particionada por dominio y los cambios se hacen sobre servicios en especifico. <br>
-  El número de quanta es uno o más, a pesar de ser 4 o más servicios al compartir la base de datos y UI entonces el sistema completa sería un solo quanta, pero con las variaciones de varias UIs o BDs podemos tener varias quantas. 
-  <img src="images/40.png" width="1050">
+  <img src="images/55.png" width="1050">
+  Es particionada tecnicamente ya que los dominios están repartidos en los processors y la separación de componentes por tipos es lo que une. <br>
+  El número de quanta es uno o más, basado en las interacciones con la base de datos en cada processor, si multiples processors comparten una bd entonces pertenecen al mismo quantum. 
   Partir en dominios permite mayor agilidad, mejor testeabilidad y más frecuencia en el deploy. <br>
-  La tolerancia a fallos y disponibilidad se da pues a pesar de grano grueso al tener servicios self-contained y sin comunicación entre ellos. Si un servicio se cae, no impacta a los demás. <br>
-  Aunque se puede escalar y volver elastico, al ser tan de grano grueso los servicios se replica mucha funcionalidad y esto no es efectivo en términos de costo. <br>
-  El costo y simplicidad de esta arquitectura es muy buena en comparación con otras arquitecturas distribuidas. <br>
-  Es más fiable pues el grano grueso hace que haya menos tráfico de red. <br>
-  - Use esta arquitectura cuando necesite poder pero no tanto como una distribuida más compleja. Es natural cuando se está haciendo DDD. Preserva ACID y ofrece una muy buena modularidad sin entrar en granularidades muy pequeñas. Entre mayor granularidad más problemas al orquestar y coreografiar. Orquestar es coordinar múltiples servicios a través del uso de un servicio mediador separado que controla y maneja el flujo. Coreografiar es coordinar múltiples servicios sin un intermediario.
-  
+  Alto performance gracias al async con el procesamiento paralelo. <br>
+  Alta escalabilidad al escalar cada processor de manera independiente. <br>
+  Tolerancia a fallos por el desacoplamiento y manejo async que da consistencia eventual. <br>
+  Simplicidad y testeabilidad bajas por el dinamismo de los flujos. <br>
+  Muy evolucionaria y expandible, se añaden processors y funcionalidades de manera rápida. <br>
 - **Preguntas:**
-  - **1. How many services are there in a typical service-based architecture?**  
+  - **1. What are the primary differences between the broker and mediator topologies?**  
   <details>
     <summary>Ver respuesta</summary>
-   Entre 4 y 12 servicios.
+   La existencia del mediador para el conocimiento del flujo, coordinación y orquestación, manejo de errores, recuperabilidad y capacidad de reinicio de los eventos. En broker los eventos pueden ser ignorados y son reportados al resto del sistema, en mediator son mas comandos delegados que deben cumplirse y son reportados solo al mediator.
   </details>
 
-  - **2. Do you have to break apart a database in service-based architecture?**  
+  - **2. For better workflow control, would you use the mediator or broker topology?**  
   <details>
     <summary>Ver respuesta</summary>
-    No, el uso de una base de datos monolitica es parte de la topología común de esta arquitectura por el manejo completo de flujos en cada servicio y la no comunicación entre servicios. Sin embargo, se pueden utilizar varias bases de datos.
+    Mediator que conoce el flujo y puede rastrear el estado de los eventos.
   </details>
 
-  - **3. Under what circumstances might you want to break apart a database?**  
+  - **3. Does the broker topology usually leverage a publish-and-subscribe model with topics or a point-to-point model with queues?**  
   <details>
     <summary>Ver respuesta</summary>
-    Podrías considerar descomponer una base de datos si necesitas aislar dominios de datos para mejorar la escalabilidad, facilitar el mantenimiento, o si ciertos servicios requieren una alta disponibilidad independiente de otros servicios.
+    Broker usa pub/sub con topics ya que transmite notificaciones de procesamiento al resto del sistema mientras que mediator usa colas 1-1 con cada processor especializado.
   </details>
 
-  - **4. What technique can you use to manage database changes within a service-based architecture?**  
+  - **4. Name two primary advantage of asynchronous communications**  
   <details>
     <summary>Ver respuesta</summary>
-    Generar varias librerias compartidas federadas para el manejo de entidades de la base de datos acordes a las particiones lógicas de los datos lo más finas posibles, así un cambio se mitiga y afecta solo a los servicios que usan esa lib.
+    La responsividad con respuestas rápidas y performance con procesos paralelos.
   </details>
 
-  - **5. Do domain services require a container (such as Docker) to run?**  
+  - **5. Give an example of a typical request within the request-based model**  
   <details>
     <summary>Ver respuesta</summary>
-    No, pueden ser desplegados de la manera que se despliega un monolito pero no está prohibida la contenerización.
+    Obtener los datos de un perfil o el detalle de una transacción.
   </details>
 
-  - **6. Which architecture characteristics are well supported by the service-based architecture style?**  
+  - **6. Give an example of a typical request in an event-based model.**  
   <details>
     <summary>Ver respuesta</summary>
-    Agilidad (Deploy + Test), tolerancia a fallos, modularidad, costo, fiabilidad.
+    Hacer un pago en un ecommerce o modificar el estado civil en la registraduría.
   </details>
 
-  - **7. Why isn’t elasticity well supported in a service-based architecture?**  
+  - **7. What is the difference between an initiating event and a processing event in event-driven architecture?**  
   <details>
     <summary>Ver respuesta</summary>
-    Por los servicios de grano grueso, a pesar de poder escalar y ser elasticos al ser tanta funcionalidad replicada no es algo eficiente en costos.
+    El evento inicial ocurre para dar inicio al flujo de procesamiento del evento emitido por una UI o API que lo transmite a los processors, mientras que el de procesamiento es un evento que emite el event processor dirigido a otros processors para notificar su trabajo completado y continuar con el flujo.
   </details>
 
-  - **8. How can you increase the number of architecture quanta in a service-based architecture?**  
+  - **8. What are some of the techniques for preventing data loss when sending and receiving messages from a queue?**  
   <details>
     <summary>Ver respuesta</summary>
-    Si en los servicios algunos dejan de compartir base de datos y UI y generan otro subsistema que funcione por si mismo entonces tenemos multiple quanta.
+    Colas persistentes y msgs persistentes, ACID, LPS, ACK mode.
+  </details>
+
+  - **9. What are three main driving architecture characteristics for using event-driven architecture?**  
+  <details>
+    <summary>Ver respuesta</summary>
+    Escalabilidad, performance, tolerancia a fallos.
+  </details>
+
+  - **10. What are some of the architecture characteristics that are not well supported in event-driven architecture?**  
+  <details>
+    <summary>Ver respuesta</summary>
+    Simplicidad, testeabilidad, costo, predictibilidad.
   </details>
 
 ## Recursos Adicionales
