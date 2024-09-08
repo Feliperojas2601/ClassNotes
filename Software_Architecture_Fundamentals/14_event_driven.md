@@ -14,10 +14,13 @@
     - Evento broker como RabbitMQ para el manejo de msgs. 
     - Event proccesor, realiza tareas especificas y luego de manera async notifica al resto del sistema de lo que hizo creando un evento de procesamiento. 
     - El evento de procesamiento se envia al broker para mayor procesamiento si es necesario, otros processors pueden o no escuchar este evento y actuar. Así hasta que nadie se interese en lo que el último processor hizo. 
-  - Es usualmente federeado (multiples instancias domain-based clustered) en donde cada broker contiene todos los canales de eventos usados dentro del flujo de eventos de ese dominio. Por tanto los topics (broadcast) es usado con un modelo de pub/sub. 
+  - Es usualmente federeado (multiples instancias domain-based clustered) en donde cada broker contiene todos los canales de eventos usados dentro del flujo de eventos de ese dominio. Por tanto los topics (canales en el broker de msg) es usado con un modelo de pub/sub hasta para broadcast. 
   - Es buena práctica que cada processor advierta de lo que hizo para dar mayor extensibilidad a un nuevo processor que se interese en eso. 
-  - Distintos procesamientos se pueden dar en paralelo, alto performance.
+  - Distintos procesamientos se pueden dar en paralelo, alto performance. Muy desacoplados todos los processors, es una carrera de relevos. Cada processor puede escalar de manera independiente y si un procesador de eventos se ralentiza o se detiene (debido a problemas en el entorno o sobrecarga), el topic actúa como un buffer o punto de "backpressure". Los eventos se acumulan en el topic hasta que el procesador pueda ponerse al día o hasta que se resuelva el problema. Esto previene que los eventos se pierdan y permite que el sistema mantenga su integridad.
   <img src="images/41.png" width="1050">
+  <img src="images/42.png" width="1050">
+  - Hay algunos aspectos negativos como el no control sobre el flujo asociado al evento de inicio, nadie en el sistema sabe cuando la trx está completa. El manejo de errores es otro problema complicado, un fallo y nadie está pendiente de el, se puede trabar hasta un arreglo automatico o manual. La recuperabilidad es compleja porque otros processors han actuado y no podemos reiniciar desde un inicio una trx.  
+  <img src="images/43.png" width="1050">
   - Ratings: 
   <img src="images/39.png" width="1050">
   Es particionada por dominio y los cambios se hacen sobre servicios en especifico. <br>
