@@ -23,65 +23,37 @@
   Elasticidad y escalabilidad están presentes. <br>
   Performance no presente una request está muy distribuida. <br>
   Simplicidad y costo muy malas. <br>
+
 - **Preguntas:**
-  - **1. Where does space-based architecture get its name from?**  
+  - **1. What was the main driving force behind service-oriented architecture?**  
   <details>
     <summary>Ver respuesta</summary>
-   De tuple space, técnica para comunicar procesos en paralelo usando la memoria compartida.
+    Reusar, no tener que reescribir software al hacer piezas tan pequeñas y reusables que puedan armar nuevos servicios.
   </details>
 
-  - **2. What is a primary aspect of space-based architecture that differentiates it from other architecture styles?**  
+  - **2. What are the four primary service types within a service-oriented architecture?**  
   <details>
     <summary>Ver respuesta</summary>
-    Desaparace la base de datos centralizada y las consultas sync a esta. 
+    Negocio, empresa, infra, aplicación.
   </details>
 
-  - **3. Name the four components that make up the virtualized middleware within a space-based architecture.**  
+  - **3.  List some of the factors that led to the downfall of service-oriented architecture.**  
   <details>
     <summary>Ver respuesta</summary>
-    Messaging grid, data grid, processing grid, deployment manager.
+    En la práctica es un desastre, muy complejo construir servicios tan granulares para su reuso, arch se vuelve cada vez más compleja, extramanejos de campos y lógica que no es necesaria por ser compartida y los límites son dificiles de definir, también la naturaleza va en contra de esto.
   </details>
 
-  - **4. What is the role of the messaging grid?**  
+  - **4. Is service-oriented architecture technically partitioned or domain partitioned?**  
   <details>
     <summary>Ver respuesta</summary>
-    Maneja las inputs y las distribuye a las unidades disponibles, puede ser más complejo y conocer el estado de request/unidad.
+    Muy técnica.
   </details>
 
-  - **5. What is the role of a data writer in space-based architecture?**  
+  - **5. How is domain reuse addressed in SOA? How is operational reuse addressed?**  
   <details>
     <summary>Ver respuesta</summary>
-    Escucha del data pump las actualizaciones de data que deben realizarse mediante un contrato de acción definida y realiza estos cambios de manera async.
-  </details>
-
-  - **6. Under what conditions would a service need to access data through the data reader?**  
-  <details>
-    <summary>Ver respuesta</summary>
-    Caida de todas las unidades asociadas a una cache, redeploy y data archivada que no está en cache.
-  </details>
-
-  - **7. Does a small cache size increase or decrease the chances for a data collision?**  
-  <details>
-    <summary>Ver respuesta</summary>
-    Incrementa, entre más pequeña más probable.
-  </details>
-
-  - **8. What is the difference between a replicated cache and a distributed cache? Which one is typically used in space-based architecture?**  
-  <details>
-    <summary>Ver respuesta</summary>
-    tipicamente replicada, in-memory grids en cada unidad replicadas por el data grid, en distributed un server central accedido por las unidades, la decisión se toma según el tamaño y update rate, es performance y tolerancia vs consistencia.
-  </details>
-
-  - **9.List three of the most strongly supported architecture characteristics in space based architecture**  
-  <details>
-    <summary>Ver respuesta</summary>
-    Escalabilidad, elasticidad y performance.
-  </details>
-
-  - **10. Why does testability rate so low for space-based architecture?**  
-  <details>
-    <summary>Ver respuesta</summary>
-    Es dificil testear los niveles de concurrencia tan extremos, pruebas en caliente en prod. 
+    Dominio al crear servicios que encapsulan funciones específicas de un dominio de negocio, lo que permite que diferentes partes de la organización reutilicen los mismos servicios sin duplicar lógica.
+    Operacional mediante la creación de servicios de infraestructura y aplicación que se pueden reutilizar en múltiples operaciones o flujos.
   </details>
 
 ## Recursos Adicionales
