@@ -5,7 +5,7 @@
 <img src="images/dp.png" width="150">
 
 - **Notas:**
-  - Aplicación SimUDuck, el sieño inicial usa el concepto de POO herencia para representar varios patos.  
+  - Aplicación SimUDuck, el diseño inicial usa el concepto de POO herencia para representar varios patos.  
   <img src="images/1.png" width="1050">
   - Requerimiento, los patos deben volar -> Añadir un método en la súper clase -> Aunque estoy reusando, en términos de mantenibilidad tengo problemas pues no todos los patos deben volar -> Override en los métodos de los patos que no deben volar -> Código duplicado en diversas clases de patos que no vuelan, no hay posibilidad de cambios en tiempo de ejecución, dificil mantener el conocimiento de todos los patos y los cambios pueden afectar a otros patos que no deberían. 
   - Qué tal si hacemos una interfaz para el comportamiento de volar con el método y que los patos la implementen -> Código duplicado de patos con los mismos comportamientos de vuelo, pasamos de un problema de mantenimiento a otro. Ni la herencia ni una interaz común de comportamiento nos funcionan para mantener el código.
@@ -18,6 +18,10 @@
   <img src="images/3.png" width="1050">
   - La línea negra completa son HAS-A, línea punteada cabeza blanca IMPLEMENTS, línea punteada cabeza negra IS-A o EXTENDS/INHERITS. 
   - Otro principio de diseño *"Favorece composición sobre herencia"*. Aquí favorecemos composición HAS-A sobre IS-A al poner los comportamientos en el pato como los ponemos. Nos da flexibilidad, encapsulamos los comportamientos en sus clases y podemos cambiar de comportamiento en tiempo de ejecución con los setters.
+  - Strategy. 
+  <img src="images/6.png" width="1050">
+  <img src="images/7.png" width="1050">
+
 
 - **Puntos clave:**
   - Los buenos diseños de POO son resuables, extendibles y mantenibles. 
